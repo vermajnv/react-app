@@ -1,0 +1,14 @@
+POST {{baseUrl}}/places
+content-type: application/json
+
+{
+    "title" : "This is new place",
+    "description" : "This is the new description",
+    "address" : "Lakhimpur",
+    "coordinates" : {
+        "lat" : 40.234,
+        "long" : 32.0897
+    },
+    "creator" : "Nayan"
+}
+

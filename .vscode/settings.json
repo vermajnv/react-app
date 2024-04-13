@@ -1,0 +1,13 @@
+{
+    "rest-client.environmentVariables" : {
+        "local" : {
+            "baseUrl" : "http://localhost:4000/api"
+        },
+        "staging" : {
+            "baseUrl" : "http://localhost:4000/api"
+        },
+        "production" : {
+            "baseUrl" : "http://localhost:4000/api"
+        }
+    }
+} 
