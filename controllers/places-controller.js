@@ -1,5 +1,7 @@
 const HttpError = require('../models/http-error');
+const {validationResult} = require('express-validator')
 const uuid = require('uuid')
+
 let DUMMY_PLACES = [
     {
         id : 'p1',
@@ -55,6 +57,12 @@ exports.getUserPlaces = (req, res, next) => {
 }
 
 exports.createPlace = (req, res, next) => {
+    const error = validationResult(req);
+    if(!error.isEmpty())
+    {
+        console.log(error);
+        return next(new HttpError('error.'), 422)
+    }
     const {title, description, coordinates, address, creator} = req.body;
     console.log(req.body);
     const place = {
