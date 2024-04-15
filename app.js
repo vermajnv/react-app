@@ -12,7 +12,7 @@ app.use(express.json())
 app.use(bodyParser.urlencoded({extended : true}))
 
 app.use('/api/places', PlacesRoutes);
-app.use('/api/user', UsersRoutes);
+app.use('/api/users', UsersRoutes);
 
 // URL not found
 app.use((req, res, next) => {

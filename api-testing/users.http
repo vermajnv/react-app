@@ -1,0 +1,22 @@
+GET {{baseUrl}}/users
+
+###
+POST {{baseUrl}}/users/signup
+content-type : application/json
+
+{
+    "name" : "Anjali",
+    "email" : "anjali@gmail.com",
+    "password" : "nayan@"
+}
+
+
+###
+
+POST {{baseUrl}}/users/login
+content-type : application/json
+
+{
+    "email" : "nayan@gmail.com",
+    "password" : "nayan@"
+}

@@ -12,3 +12,20 @@ content-type: application/json
     "creator" : "Nayan"
 }
 
+###
+PATCH {{baseUrl}}/places
+content-type: application/json
+
+{
+    "placeId" : "p1",
+    "title" : "This is new place",
+    "description" : "This is the new description"
+}
+
+###
+
+DELETE {{baseUrl}}/places/p1
+content-type : 'application/json'
+
+
+
