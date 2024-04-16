@@ -1,6 +1,7 @@
 const HttpError = require('../models/http-error');
 const {validationResult} = require('express-validator')
-const uuid = require('uuid')
+const uuid = require('uuid');
+const getCoordinatesFromAddress = require('../utils/location');
 
 let DUMMY_PLACES = [
     {
@@ -56,15 +57,20 @@ exports.getUserPlaces = (req, res, next) => {
     })
 }
 
-exports.createPlace = (req, res, next) => {
+exports.createPlace = async (req, res, next) => {
     const error = validationResult(req);
     if(!error.isEmpty())
     {
-        console.log(error);
-        return next(new HttpError('error.'), 422)
+        return next(new HttpError('Please inter a valid input.'), 422)
     }
-    const {title, description, coordinates, address, creator} = req.body;
-    console.log(req.body);
+    const {title, description, address, creator} = req.body;
+    const coordinates = '';
+
+    try {
+        const coordinates = await getCoordinatesFromAddress(address);
+    } catch (error) {
+        return next(new HttpError(error, 500))
+    }
     const place = {
         id : uuid.v4(),
         title : title,
@@ -80,7 +86,6 @@ exports.createPlace = (req, res, next) => {
 
 exports.updatePlace = (req, res, next) => {
     const {placeId, title, description} = req.body;
-    console.log(placeId);
     const place = {...DUMMY_PLACES.find((place) => place.id === placeId)};
 
     const placeIndex = DUMMY_PLACES.findIndex(p => p.id === placeId);
@@ -94,6 +99,10 @@ exports.updatePlace = (req, res, next) => {
 exports.deletePlace = (req, res, next) => {
     const placeId = req.params.placeId;
 
+    if(!DUMMY_PLACES.find((place) => place.id === placeId))
+    {
+        return next(new HttpError('Could not find the place', 404))
+    }
     const DUMMY_PLACES = DUMMY_PLACES.filter((place) => place.id !== placeId);
     res.status(200).json({message : 'Place deleted successfully.'})
 }

@@ -2,7 +2,7 @@ POST {{baseUrl}}/places
 content-type: application/json
 
 {
-    "title" : "",
+    "title" : "odsfdsg",
     "description" : "This is the new description",
     "address" : "Lakhimpur",
     "coordinates" : {
