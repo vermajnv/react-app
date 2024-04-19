@@ -5,11 +5,10 @@ POST {{baseUrl}}/users/signup
 content-type : application/json
 
 {
-    "name" : "dsgfdfh",
-    "email" : "dsgdfhg@gmail.com",
+    "name" : "Golu",
+    "email" : "golu@gmail.com",
     "password" : "nayan@4"
 }
-
 
 ###
 
@@ -18,5 +17,5 @@ content-type : application/json
 
 {
     "email" : "nayan@gmail.com",
-    "password" : "nayan@"
+    "password" : "nayan@4"
 }

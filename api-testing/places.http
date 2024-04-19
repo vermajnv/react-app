@@ -2,14 +2,14 @@ POST {{baseUrl}}/places
 content-type: application/json
 
 {
-    "title" : "odsfdsg",
+    "title" : "New place a its ref",
     "description" : "This is the new description",
     "address" : "Lakhimpur",
     "coordinates" : {
         "lat" : 40.234,
         "long" : 32.0897
     },
-    "creator" : "Nayan"
+    "creator" : "66221a54c1cba80d8411a3ff"
 }
 
 ###
@@ -17,14 +17,23 @@ PATCH {{baseUrl}}/places
 content-type: application/json
 
 {
-    "placeId" : "p1",
+    "placeId" : "6620af098bdfb9177fc58e85",
     "title" : "This is new place",
     "description" : "This is the new description"
 }
 
 ###
+GET {{baseUrl}}/places/6620af098bdfb9177fc58e85
+content-type : application/json
+###
 
-DELETE {{baseUrl}}/places/p1
+### 
+GET {{baseUrl}}/places/user/Nayan
+content-type : application/json
+
+###
+
+DELETE {{baseUrl}}/places/662106fad85c462ccbd2a2f0
 content-type : 'application/json'
 
 
