@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
 
 const bodyParser = require('body-parser');
@@ -31,4 +32,11 @@ app.use((error, req, res, next) => {
     })
 })
 
-app.listen(4000);
+mongoose.connect('mongodb+srv://user_mern:hRmZWcIjXfrJqYO4@cluster0.ci1kzfa.mongodb.net/u_places?retryWrites=true&w=majority&appName=Cluster0')
+    .then(() => {
+        app.listen(4000)
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+
