@@ -1,29 +1,7 @@
-const uuid = require('uuid')
 const HttpError = require('../models/http-error')
 const { validationResult } = require('express-validator')
 const User = require('../models/User')
 const bcrypt = require('bcrypt');
-
-const DUMMY_USERS = [
-    {
-        id : 'u1',
-        name : 'Nayan',
-        email : 'nayan@gmail.com',
-        password : 'nayan@'
-    },
-    {
-        id : 'u2',
-        name : 'Golu',
-        email : 'golu@gmail.com',
-        password : 'nayan@'
-    },
-    {
-        id : 'u3',
-        name : 'Prabhat',
-        email : 'prabhat@gmail.com',
-        password : 'nayan@'
-    }
-]
 
 exports.getUsers = async (req, res, next) => {
     let users;
@@ -49,9 +27,12 @@ exports.loginUser = async (req, res, next) => {
     let identifiedUser;
     try{
         identifiedUser = await User.findOne({ email : email}).select('+password')
-        const validPassword = await bcrypt.compare(password, identifiedUser.password);
-        if(!identifiedUser || !validPassword) {
+        if(!identifiedUser) {
             return next(new HttpError('Could not identify the user, credentials seems to be wrong.'));
+        }
+        const validPassword = await bcrypt.compare(password, identifiedUser.password);
+        if(!validPassword) {
+            return next(new HttpError('Could not identify the user, Invalid password.'));
         }
     }
     catch (err)
@@ -61,7 +42,6 @@ exports.loginUser = async (req, res, next) => {
 
     identifiedUser.toObject({ getters : true});
     identifiedUser.password = undefined;
-    console.log(identifiedUser);
     res.status(200).json({
         user : identifiedUser,
         message : 'User logged in'

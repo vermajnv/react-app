@@ -34,4 +34,4 @@ const placeSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Places', placeSchema)
+module.exports = mongoose.model('Place', placeSchema)

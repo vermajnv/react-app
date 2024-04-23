@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const { check, isEmail, validator} = require('express-validator')
 const bcrypt = require('bcrypt');
 
 const userSchema = mongoose.Schema({
@@ -21,8 +20,8 @@ const userSchema = mongoose.Schema({
     password : {
         type : String,
         required : true,
-        minlength : 6,
-        select : false
+        minlength : 6
+        // select : false
     },
     places : [{
         type : mongoose.Types.ObjectId,
@@ -30,15 +29,6 @@ const userSchema = mongoose.Schema({
         ref : 'Place'
     }]
 });
-
-async function validateEmail(email) {
-    if(!this.isModified(email))
-    {
-        if(!check(email).isEmail()) throw new Error('Please enter a valid email')
-        const user = await this.constructor.findOne({email : email});
-        if(user) throw new Error('A user already registered with this email address');
-    }
-}
 
 userSchema.pre('save', async function (next) {
     try {

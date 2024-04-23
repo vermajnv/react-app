@@ -9,7 +9,7 @@ content-type: application/json
         "lat" : 40.234,
         "long" : 32.0897
     },
-    "creator" : "66221a54c1cba80d8411a3ff"
+    "creator" : "66225f8d909b3c7c041db46c"
 }
 
 ###
@@ -23,17 +23,17 @@ content-type: application/json
 }
 
 ###
-GET {{baseUrl}}/places/6620af098bdfb9177fc58e85
+GET {{baseUrl}}/places/66225f8d909b3c7c041db46c
 content-type : application/json
 ###
 
 ### 
-GET {{baseUrl}}/places/user/Nayan
+GET {{baseUrl}}/places/user/66225f8d909b3c7c041db46c
 content-type : application/json
 
 ###
 
-DELETE {{baseUrl}}/places/662106fad85c462ccbd2a2f0
+DELETE {{baseUrl}}/places/66225fba909b3c7c041db471
 content-type : 'application/json'
 
 

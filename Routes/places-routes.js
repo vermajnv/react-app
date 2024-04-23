@@ -7,7 +7,6 @@ const {
   updatePlace,
   deletePlace,
 } = require("../controllers/places-controller");
-const getCoordinatesFromAddress = require('../utils/location');
 
 const router = express.Router((req, res, next) => {
   next();
