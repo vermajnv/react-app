@@ -28,11 +28,11 @@ exports.loginUser = async (req, res, next) => {
     try{
         identifiedUser = await User.findOne({ email : email}).select('+password')
         if(!identifiedUser) {
-            return next(new HttpError('Could not identify the user, credentials seems to be wrong.'));
+            return next(new HttpError('Could not identify the user, credentials seems to be wrong.', 422));
         }
         const validPassword = await bcrypt.compare(password, identifiedUser.password);
         if(!validPassword) {
-            return next(new HttpError('Could not identify the user, Invalid password.'));
+            return next(new HttpError('Could not identify the user, Invalid password.', 422));
         }
     }
     catch (err)
