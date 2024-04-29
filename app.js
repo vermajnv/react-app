@@ -1,9 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 const fs = require('fs');
 const app = express();
 
 const bodyParser = require('body-parser');
+
 const PlacesRoutes = require('./Routes/places-routes');
 const UsersRoutes = require('./Routes/users-routes');
 const HttpError = require('./models/http-error');
@@ -13,6 +15,7 @@ app.use(express.json())
 
 app.use(bodyParser.urlencoded({extended : true}))
 
+app.use('/uploads/profile/images', express.static(path.join('uploads', 'profile', 'images')));
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')

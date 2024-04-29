@@ -1,3 +1,4 @@
+const fs = require('fs');
 const HttpError = require("../models/http-error");
 const { validationResult } = require("express-validator");
 const uuid = require("uuid");
@@ -56,12 +57,11 @@ exports.createPlace = async (req, res, next) => {
   } catch (error) {
     return next(new HttpError(error, 500));
   }
-
   const place = {
     title: title,
     description: description,
     location: coordinates,
-    image: "http://localhost:4000/image.jpg",
+    image: req.file.path,
     address: address,
     creator: creator,
   };
@@ -112,9 +112,10 @@ exports.updatePlace = async (req, res, next) => {
 exports.deletePlace = async (req, res, next) => {
   const placeId = req.params.placeId;
   let place;
-
+  let placeImagePath;
   try {
     place = await Place.findById(placeId).populate("creator");
+    placeImagePath = place.image;
   } catch (err) {
     return next(new HttpError(err, 500));
   }
@@ -131,7 +132,6 @@ exports.deletePlace = async (req, res, next) => {
       { _id: mongoose.Types.ObjectId.createFromHexString(placeId) },
       { session: ses }
     );
-    console.log(deletedPlace);
     place.creator.places.pull(place);
     await place.creator.save({ session: ses });
 
@@ -139,5 +139,9 @@ exports.deletePlace = async (req, res, next) => {
   } catch (err) {
     return next(new HttpError(err, 500));
   }
+
+  fs.unlink(placeImagePath, (err) => {
+    console.log(err);
+  }) 
   res.status(200).json({ message: "Place deleted successfully." });
 };
