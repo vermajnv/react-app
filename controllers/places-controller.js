@@ -27,7 +27,6 @@ exports.getUserPlaces = async (req, res, next) => {
   let userPlaces;
   try {
     userPlaces = await User.findById(userId).populate("places");
-    console.log(userPlaces);
   } catch (err) {
     return next(new HttpError(err, 500));
   }
@@ -88,7 +87,7 @@ exports.createPlace = async (req, res, next) => {
   } catch (err) {
     return next(new HttpError(err, 500));
   }
-  res.status(201).json({ place: place });
+  return res.status(201).json({ place: place });
 };
 
 exports.updatePlace = async (req, res, next) => {

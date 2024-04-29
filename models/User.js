@@ -23,6 +23,10 @@ const userSchema = mongoose.Schema({
         minlength : 6
         // select : false
     },
+    image : {
+        type : String,
+        required : true
+    },
     places : [{
         type : mongoose.Types.ObjectId,
         required : true,

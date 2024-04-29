@@ -17,9 +17,9 @@ PATCH {{baseUrl}}/places
 content-type: application/json
 
 {
-    "placeId" : "6620af098bdfb9177fc58e85",
-    "title" : "This is new place",
-    "description" : "This is the new description"
+    "placeId" : "662a398791819b652e47391d",
+    "title" : "Taj Mahal New",
+    "description" : "among the 7 wonders of world."
 }
 
 ###
