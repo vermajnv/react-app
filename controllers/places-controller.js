@@ -1,11 +1,11 @@
 const fs = require('fs');
 const HttpError = require("../models/http-error");
 const { validationResult } = require("express-validator");
-const uuid = require("uuid");
 const getCoordinatesFromAddress = require("../utils/location");
 const Place = require("../models/Place");
 const mongoose = require("mongoose");
 const User = require("../models/User");
+const {s3BaseUrl} = require('../utils/s3-config');
 
 exports.getPlaceById = async (req, res, next) => {
   const placeId = req.params.pid;
@@ -36,11 +36,12 @@ exports.getUserPlaces = async (req, res, next) => {
     return next(new HttpError("Could not find place for the provided id", 404));
   }
 
+
   res.json({
     message: "Success",
     userPlaces: userPlaces.places.map((place) =>
       place.toObject({ getters: true })
-    ),
+    )
   });
 };
 
@@ -57,11 +58,12 @@ exports.createPlace = async (req, res, next) => {
   } catch (error) {
     return next(new HttpError(error, 500));
   }
+  console.log(req.file);
   const place = {
     title: title,
     description: description,
     location: coordinates,
-    image: req.file.path,
+    image: req.file.location,
     address: address,
     creator: creator,
   };

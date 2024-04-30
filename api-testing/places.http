@@ -28,7 +28,7 @@ content-type : application/json
 ###
 
 ### 
-GET {{baseUrl}}/places/user/66225f8d909b3c7c041db46c
+GET {{baseUrl}}/places/user/662f9305d904e98b4705cdfa
 content-type : application/json
 
 ###

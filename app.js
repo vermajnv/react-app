@@ -1,10 +1,21 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const path = require('path');
+const dotenv = require('dotenv');
+
+dotenv.config({path : path.join(__dirname, '.env')})
+
+
+const {s3Client} = require('./utils/s3-config');
+const {DeleteObjectCommand} = require('@aws-sdk/client-s3');
+
+const mongoose = require('mongoose');
 const fs = require('fs');
+
+
 const app = express();
 
 const bodyParser = require('body-parser');
+
 
 const PlacesRoutes = require('./Routes/places-routes');
 const UsersRoutes = require('./Routes/users-routes');
@@ -37,12 +48,19 @@ app.use((req, res, next) => {
 })
 
 // Error Handling 
-app.use((error, req, res, next) => {
+app.use(async (error, req, res, next) => {
     if(req.file)
     {
-        fs.unlink(req.file.path, (err) => {
-            console.log(err);
-        });
+        const input = { 
+            Bucket: req.file.bucket, 
+            Key: req.file.key, 
+        };
+        const command = new DeleteObjectCommand(input);
+        const response = await s3Client.send(command);
+        console.log(response);
+        // fs.unlink(req.file.path, (err) => {
+        //     console.log(err);
+        // });
     }
     if(res.headerSent)
     {
@@ -56,7 +74,7 @@ app.use((error, req, res, next) => {
 
 mongoose.connect('mongodb+srv://user_mern:hRmZWcIjXfrJqYO4@cluster0.ci1kzfa.mongodb.net/u_places?retryWrites=true&w=majority&appName=Cluster0')
     .then(() => {
-        app.listen(4000)
+        app.listen(process.env.PORT)
     })
     .catch((error) => {
         console.log(error);
