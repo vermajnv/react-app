@@ -24,8 +24,14 @@ const userSchema = mongoose.Schema({
         // select : false
     },
     image : {
-        type : String,
-        required : true
+        key : {
+            type : String,
+            required : true
+        },
+        location : {
+            type : String,
+            required : true
+        }
     },
     places : [{
         type : mongoose.Types.ObjectId,

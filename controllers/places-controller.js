@@ -5,7 +5,7 @@ const getCoordinatesFromAddress = require("../utils/location");
 const Place = require("../models/Place");
 const mongoose = require("mongoose");
 const User = require("../models/User");
-const {s3BaseUrl} = require('../utils/s3-config');
+const {s3BaseUrl, deleteObject} = require('../utils/s3-config');
 
 exports.getPlaceById = async (req, res, next) => {
   const placeId = req.params.pid;
@@ -63,7 +63,10 @@ exports.createPlace = async (req, res, next) => {
     title: title,
     description: description,
     location: coordinates,
-    image: req.file.location,
+    image: {
+      location : req.file.location,
+      key : req.file.key
+      },
     address: address,
     creator: creator,
   };
@@ -141,9 +144,7 @@ exports.deletePlace = async (req, res, next) => {
   } catch (err) {
     return next(new HttpError(err, 500));
   }
+  deleteObject(process.env.S3_BUCKET, place.image.key);
 
-  fs.unlink(placeImagePath, (err) => {
-    console.log(err);
-  }) 
   res.status(200).json({ message: "Place deleted successfully." });
 };

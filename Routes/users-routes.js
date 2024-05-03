@@ -15,7 +15,7 @@ router.post('/login', [
 ], loginUser);
 
 router.post('/signup', 
-    fileUpload.single('image'),
+    fileUpload(process.env.USER_IMAGE_PATH).single('image'),
     [
         check('name')
             .notEmpty(),

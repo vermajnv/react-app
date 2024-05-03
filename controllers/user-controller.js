@@ -66,7 +66,10 @@ exports.signupUser = async (req, res, next) => {
         name,
         email,
         password,
-        image : req.file.path,
+        image : {
+            key : req.file.key,
+            location : req.file.location
+        },
         places : []
     });
     let newUser;

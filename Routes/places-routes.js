@@ -19,7 +19,7 @@ router.get("/user/:uid", getUserPlaces);
 
 router.post(
   "/",
-  fileUpload.single('image'),
+  fileUpload(process.env.PLACE_IMAGE_PATH).single('image'),
   [
     check("title").notEmpty(),
     check("description").isLength({

@@ -5,8 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config({path : path.join(__dirname, '.env')})
 
 
-const {s3Client} = require('./utils/s3-config');
-const {DeleteObjectCommand} = require('@aws-sdk/client-s3');
+const {deleteObject} = require('./utils/s3-config');
 
 const mongoose = require('mongoose');
 const fs = require('fs');
@@ -51,16 +50,7 @@ app.use((req, res, next) => {
 app.use(async (error, req, res, next) => {
     if(req.file)
     {
-        const input = { 
-            Bucket: req.file.bucket, 
-            Key: req.file.key, 
-        };
-        const command = new DeleteObjectCommand(input);
-        const response = await s3Client.send(command);
-        console.log(response);
-        // fs.unlink(req.file.path, (err) => {
-        //     console.log(err);
-        // });
+        deleteObject(req.file.bucket, req.file.key);
     }
     if(res.headerSent)
     {

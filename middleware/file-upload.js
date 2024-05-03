@@ -7,7 +7,7 @@ const MIME_TYPE = {
     "image/jpeg" : 'jpeg',
     "image/png" : 'png'
 }
-const fileUpload = multer({
+const fileUpload = (bucket_path) =>  multer({
     limits : 50000,
     // storage : multer.diskStorage({
     //     destination : (req, file, cb) => {
@@ -23,7 +23,7 @@ const fileUpload = multer({
     //         cb(error, isValid);
     //     }
     // })
-    storage : multerS3Storage,
+    storage : multerS3Storage(bucket_path),
     fileFilter : (req, file, cb) => {
             const isValid = !!MIME_TYPE[file.mimetype];
             let error = isValid ? null : new Error('Invalid mime type')
