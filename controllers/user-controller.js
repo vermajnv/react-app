@@ -2,6 +2,7 @@ const HttpError = require('../models/http-error')
 const { validationResult } = require('express-validator')
 const User = require('../models/User')
 const bcrypt = require('bcrypt');
+const generateWebToken = require('../middleware/jwt');
 
 exports.getUsers = async (req, res, next) => {
     let users;
@@ -24,7 +25,7 @@ exports.loginUser = async (req, res, next) => {
         return next(new HttpError('Invalid Inputs please check', 422))
     }
     const { email, password} = req.body;
-    let identifiedUser;
+    let identifiedUser, jwt;
     try{
         identifiedUser = await User.findOne({ email : email}).select('+password')
         if(!identifiedUser) {
@@ -34,6 +35,7 @@ exports.loginUser = async (req, res, next) => {
         if(!validPassword) {
             return next(new HttpError('Could not identify the user, Invalid password.', 422));
         }
+        jwt = generateWebToken(identifiedUser);
     }
     catch (err)
     {
@@ -44,9 +46,9 @@ exports.loginUser = async (req, res, next) => {
     identifiedUser.password = undefined;
     res.status(200).json({
         user : identifiedUser,
+        token : jwt,
         message : 'User logged in'
     });
-
 }
 
 exports.signupUser = async (req, res, next) => {
@@ -72,14 +74,15 @@ exports.signupUser = async (req, res, next) => {
         },
         places : []
     });
-    let newUser;
+    let newUser, jwt;
     try {
         newUser = await createdUser.save();
+        jwt = generateWebToken(newUser);
     }
     catch (err)
     {
         return next(new HttpError(err, 500));
     }
     newUser.password = undefined;
-    res.status(201).json({user : newUser})
+    res.status(201).json({user : newUser, token : jwt, message : 'User registerd successfully'})
 }
