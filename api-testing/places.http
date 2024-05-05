@@ -15,9 +15,10 @@ content-type: application/json
 ###
 PATCH {{baseUrl}}/places
 content-type: application/json
+Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzRhZjUzODE1ODhmYTUwMmNiNzA1YSIsImVtYWlsIjoibmF5YW4xQGdtYWlsLmNvbSIsImlhdCI6MTcxNDkwNDQ4NywiZXhwIjoxNzE0OTA4MDg3fQ.c71VGeF4YXkThvPOKURyfqKjUGjYwxvQC4T-XQgoTds
 
 {
-    "placeId" : "662a398791819b652e47391d",
+    "placeId" : "66375a322eb90ebfcd6f6f9d",
     "title" : "Taj Mahal New",
     "description" : "among the 7 wonders of world."
 }

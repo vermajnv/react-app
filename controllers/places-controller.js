@@ -104,6 +104,10 @@ exports.updatePlace = async (req, res, next) => {
       return next(new HttpError("Place not found", 404));
     }
 
+    if(place.creator !== req.userData.id)
+    {
+      return next(new HttpError('Place does not belong to the user', 401));
+    }
     place.title = title;
     place.description = description;
     await place.save();
@@ -125,6 +129,10 @@ exports.deletePlace = async (req, res, next) => {
     return next(new HttpError(err, 500));
   }
 
+  if(place.id !== req.userData.id)
+  {
+    return next(new HttpError('Place does not belongs to the user'));
+  }
   if (!place) {
     return next(new HttpError("No place found.", 404));
   }
