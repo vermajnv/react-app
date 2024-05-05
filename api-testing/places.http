@@ -34,8 +34,9 @@ content-type : application/json
 
 ###
 
-DELETE {{baseUrl}}/places/66225fba909b3c7c041db471
+DELETE {{baseUrl}}/places/6637cd8b7f3e3512e4057f70
 content-type : 'application/json'
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzRhZjUzODE1ODhmYTUwMmNiNzA1YSIsImVtYWlsIjoibmF5YW4xQGdtYWlsLmNvbSIsImlhdCI6MTcxNDkzMzExOSwiZXhwIjoxNzE0OTM2NzE5fQ.lJ3cB4Dw6OJIkUy7umr1DqOylTMzw50GnZokx_TzC10
 
 
 
