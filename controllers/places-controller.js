@@ -58,7 +58,6 @@ exports.createPlace = async (req, res, next) => {
   } catch (error) {
     return next(new HttpError(error, 500));
   }
-  console.log(req.file);
   const place = {
     title: title,
     description: description,
@@ -104,9 +103,9 @@ exports.updatePlace = async (req, res, next) => {
       return next(new HttpError("Place not found", 404));
     }
 
-    if(place.creator !== req.userData.id)
+    if(place.creator.id !== req.userData.id)
     {
-      return next(new HttpError('Place does not belong to the user', 401));
+      return next(new HttpError('Place does not belong to the user', 403));
     }
     place.title = title;
     place.description = description;
@@ -129,9 +128,9 @@ exports.deletePlace = async (req, res, next) => {
     return next(new HttpError(err, 500));
   }
 
-  if(place.id !== req.userData.id)
+  if(place.creator.id !== req.userData.id)
   {
-    return next(new HttpError('Place does not belongs to the user'));
+    return next(new HttpError('Place does not belongs to the user', 403));
   }
   if (!place) {
     return next(new HttpError("No place found.", 404));
