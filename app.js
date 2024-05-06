@@ -62,7 +62,7 @@ app.use(async (error, req, res, next) => {
     })
 })
 
-mongoose.connect('mongodb+srv://user_mern:hRmZWcIjXfrJqYO4@cluster0.ci1kzfa.mongodb.net/u_places?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect(process.env.MONGO_END_POINT)
     .then(() => {
         app.listen(process.env.PORT)
     })
