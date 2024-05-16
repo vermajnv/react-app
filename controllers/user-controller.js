@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator')
 const User = require('../models/User')
 const bcrypt = require('bcrypt');
 const generateWebToken = require('../middleware/jwt');
+const { OAuth2Client } = require('google-auth-library');
 
 exports.getUsers = async (req, res, next) => {
     let users;
@@ -85,4 +86,67 @@ exports.signupUser = async (req, res, next) => {
     }
     newUser.password = undefined;
     res.status(201).json({user : newUser, token : jwt, message : 'User registerd successfully'})
+}
+
+exports.socialLogin = async (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.header('Referrer-Policy', 'no-referrer-when-downgrade');
+
+    const redirectUrl = 'http://localhost:4000/api/users/oauth/callback/google';
+    let authorizedUrl = '';
+    try
+    {
+        const oAuth2Client = new OAuth2Client (
+            process.env.GOOGLE_CLIENT_ID,
+            process.env.GOOGLE_CLIENT_SECRET,
+            redirectUrl
+        );
+    
+        authorizedUrl = oAuth2Client.generateAuthUrl({
+            access_type : 'offline',
+            scope : 'https://www.googleapis.com/auth/userinfo.profile openid',
+            prompt : 'consent'
+        });
+    }
+    catch (err)
+    {
+        console.log(err);
+    }
+
+    res.json({
+        authorizedUrl
+    })
+}
+
+exports.socialCallback = async (req, res, next) => {
+    const code = req.query.code;
+    try {
+        const redirectUrl = 'http://localhost:4000/api/users/oauth/callback/google';
+        const oAuth2Client = new OAuth2Client (
+            process.env.GOOGLE_CLIENT_ID,
+            process.env.GOOGLE_CLIENT_SECRET,
+            redirectUrl
+        );
+
+        const response = await oAuth2Client.getToken(code);
+
+        await oAuth2Client.setCredentials(response.tokens);
+        const user = oAuth2Client.credentials;
+        console.log('user', user);
+
+        data = await getUserData(user.access_token);
+        res.redirect('http://localhost:3000/');
+    }
+    catch (err)
+    {
+        console.log('Error while signing in with google', err);
+    }
+}
+
+async function getUserData(access_token) {
+    const response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`);
+
+    const data = await response.json();
+    console.log('data', data);
+    return data;
 }

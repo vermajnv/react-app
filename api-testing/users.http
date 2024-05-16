@@ -19,3 +19,12 @@ content-type : application/json
     "email" : "nayan1@gmail.com",
     "password" : "nayan@4"
 }
+
+###
+POST {{baseUrl}}/users/oauth/google
+content-type : application/json
+
+###
+###redirect URL
+
+GET {{baseUrl}}/oauth/users/callback/google

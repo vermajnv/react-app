@@ -50,7 +50,7 @@ exports.createPlace = async (req, res, next) => {
   if (!error.isEmpty()) {
     return next(new HttpError("Please inter a valid input."), 422);
   }
-  const { title, description, address, creator } = req.body;
+  const { title, description, address} = req.body;
   let coordinates = "";
 
   try {
@@ -67,11 +67,11 @@ exports.createPlace = async (req, res, next) => {
       key : req.file.key
       },
     address: address,
-    creator: creator,
+    creator: req.userData.userId,
   };
   let user;
   try {
-    user = await User.findById(creator);
+    user = await User.findById(req.userData.userId);
   } catch (err) {
     return next(new HttpError("Something went wrong", 500));
   }

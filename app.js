@@ -25,11 +25,12 @@ app.use(express.json())
 
 app.use(bodyParser.urlencoded({extended : true}))
 
-app.use('/uploads/profile/images', express.static(path.join('uploads', 'profile', 'images')));
+app.use('/social/images', express.static(path.join('social', 'images')));
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, PATCH, OPTIONS');
+    res.setHeader('Referer-Policy', 'no-referer-when-downgrade')
     if (req.method === "OPTIONS") {
         return res.status(200).end();
     }
